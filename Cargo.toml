@@ -1,6 +1,6 @@
 [package]
 name = "tarot-woman"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "An app for drawing tarot cards."
 license-file = "LICENSE"
@@ -8,4 +8,6 @@ license-file = "LICENSE"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+artem = "3.0.0"
+image = "0.25.5"
 rand = { version = "0.9.0", features = ["small_rng"] }

@@ -1,4 +1,5 @@
 use std::fmt::Formatter;
+use std::num::NonZeroU32;
 
 pub mod major_arcana;
 pub mod minor_arcana;
@@ -9,7 +10,7 @@ pub struct Card {
 }
 
 impl Card {
-    pub fn wiki_image_link(&self) -> String {
+    pub fn wiki_image_link(&self) -> &'static str {
         match self.inner {
             Inner::MajorArcana(major_arcana::Card::TheFool) => "https://en.wikipedia.org/wiki/The_Fool_(tarot_card)#/media/File:RWS_Tarot_00_Fool.jpg",
             Inner::MajorArcana(major_arcana::Card::TheMagician) => "https://en.wikipedia.org/wiki/The_Magician_(tarot_card)#/media/File:RWS_Tarot_01_Magician.jpg",
@@ -47,7 +48,7 @@ impl Card {
             Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Knight) => "https://en.wikipedia.org/wiki/Knight_of_Cups#/media/File:Cups12.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Queen) => "https://en.wikipedia.org/wiki/Queen_of_Cups#/media/File:Cups13.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::King) => "https://en.wikipedia.org/wiki/King_of_Cups#/media/File:Cups14.jpg",
-            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Ace) => "https://en.wikipedia.org/wiki/Ace_of_Wands#/media/File:Wands01.jpg",
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Ace) => "https://en.wikipedia.org/wiki/Ace_of_Wands_(tarot_card)#/media/File:Wands01.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Two) => "https://en.wikipedia.org/wiki/Two_of_Wands#/media/File:Wands02.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Three) => "https://en.wikipedia.org/wiki/Three_of_Wands#/media/File:Wands03.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Four) => "https://en.wikipedia.org/wiki/Four_of_Wands#/media/File:Wands04.jpg",
@@ -89,7 +90,256 @@ impl Card {
             Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Knight) => "https://en.wikipedia.org/wiki/Knight_of_Pentacles#/media/File:Pents12.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Queen) => "https://en.wikipedia.org/wiki/Queen_of_Pentacles#/media/File:Pents13.jpg",
             Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::King) => "https://en.wikipedia.org/wiki/King_of_Pentacles#/media/File:Pents14.jpg",
-        }.to_string()
+        }
+    }
+
+    pub fn wiki_image(&self, height: NonZeroU32, inverted: bool) -> String {
+        let bytes = match self.inner {
+            Inner::MajorArcana(major_arcana::Card::TheFool) => {
+                include_bytes!("../images/RWS_Tarot_00_Fool.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheMagician) => {
+                include_bytes!("../images/RWS_Tarot_01_Magician.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheHighPriestess) => {
+                include_bytes!("../images/RWS_Tarot_02_High_Priestess.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheEmpress) => {
+                include_bytes!("../images/RWS_Tarot_03_Empress.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheEmperor) => {
+                include_bytes!("../images/RWS_Tarot_04_Emperor.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheHierophant) => {
+                include_bytes!("../images/RWS_Tarot_05_Hierophant.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheLovers) => {
+                include_bytes!("../images/RWS_Tarot_06_Lovers.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheChariot) => {
+                include_bytes!("../images/RWS_Tarot_07_Chariot.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::Strength) => {
+                include_bytes!("../images/RWS_Tarot_08_Strength.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheHermit) => {
+                include_bytes!("../images/RWS_Tarot_09_Hermit.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::WheelOfFortune) => {
+                include_bytes!("../images/RWS_Tarot_10_Wheel_of_Fortune.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::Justice) => {
+                include_bytes!("../images/RWS_Tarot_11_Justice.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheHangedMan) => {
+                include_bytes!("../images/RWS_Tarot_12_Hanged_Man.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::Death) => {
+                include_bytes!("../images/RWS_Tarot_13_Death.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::Temperance) => {
+                include_bytes!("../images/RWS_Tarot_14_Temperance.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheDevil) => {
+                include_bytes!("../images/RWS_Tarot_15_Devil.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheTower) => {
+                include_bytes!("../images/RWS_Tarot_16_Tower.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheStar) => {
+                include_bytes!("../images/RWS_Tarot_17_Star.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheMoon) => {
+                include_bytes!("../images/RWS_Tarot_18_Moon.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheSun) => {
+                include_bytes!("../images/RWS_Tarot_19_Sun.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::Judgement) => {
+                include_bytes!("../images/RWS_Tarot_20_Judgement.jpg").as_slice()
+            }
+            Inner::MajorArcana(major_arcana::Card::TheWorld) => {
+                include_bytes!("../images/RWS_Tarot_21_World.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Ace) => {
+                include_bytes!("../images/Cups01.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Two) => {
+                include_bytes!("../images/Cups02.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Three) => {
+                include_bytes!("../images/Cups03.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Four) => {
+                include_bytes!("../images/Cups04.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Five) => {
+                include_bytes!("../images/Cups05.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Six) => {
+                include_bytes!("../images/Cups06.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Seven) => {
+                include_bytes!("../images/Cups07.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Eight) => {
+                include_bytes!("../images/Cups08.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Nine) => {
+                include_bytes!("../images/Cups09.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Ten) => {
+                include_bytes!("../images/Cups10.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Page) => {
+                include_bytes!("../images/Cups11.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Knight) => {
+                include_bytes!("../images/Cups12.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::Queen) => {
+                include_bytes!("../images/Cups13.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Cups, minor_arcana::FaceValue::King) => {
+                include_bytes!("../images/Cups14.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Ace) => {
+                include_bytes!("../images/Wands01.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Two) => {
+                include_bytes!("../images/Wands02.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Three) => {
+                include_bytes!("../images/Wands03.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Four) => {
+                include_bytes!("../images/Wands04.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Five) => {
+                include_bytes!("../images/Wands05.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Six) => {
+                include_bytes!("../images/Wands06.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Seven) => {
+                include_bytes!("../images/Wands07.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Eight) => {
+                include_bytes!("../images/Wands08.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Nine) => {
+                include_bytes!("../images/Wands09.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Ten) => {
+                include_bytes!("../images/Wands10.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Page) => {
+                include_bytes!("../images/Wands11.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Knight) => {
+                include_bytes!("../images/Wands12.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::Queen) => {
+                include_bytes!("../images/Wands13.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Wands, minor_arcana::FaceValue::King) => {
+                include_bytes!("../images/Wands14.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Ace) => {
+                include_bytes!("../images/Swords01.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Two) => {
+                include_bytes!("../images/Swords02.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Three) => {
+                include_bytes!("../images/Swords03.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Four) => {
+                include_bytes!("../images/Swords04.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Five) => {
+                include_bytes!("../images/Swords05.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Six) => {
+                include_bytes!("../images/Swords06.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Seven) => {
+                include_bytes!("../images/Swords07.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Eight) => {
+                include_bytes!("../images/Swords08.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Nine) => {
+                include_bytes!("../images/Swords09.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Ten) => {
+                include_bytes!("../images/Swords10.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Page) => {
+                include_bytes!("../images/Swords11.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Knight) => {
+                include_bytes!("../images/Swords12.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::Queen) => {
+                include_bytes!("../images/Swords13.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Swords, minor_arcana::FaceValue::King) => {
+                include_bytes!("../images/Swords14.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Ace) => {
+                include_bytes!("../images/Pents01.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Two) => {
+                include_bytes!("../images/Pents02.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Three) => {
+                include_bytes!("../images/Pents03.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Four) => {
+                include_bytes!("../images/Pents04.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Five) => {
+                include_bytes!("../images/Pents05.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Six) => {
+                include_bytes!("../images/Pents06.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Seven) => {
+                include_bytes!("../images/Pents07.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Eight) => {
+                include_bytes!("../images/Pents08.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Nine) => {
+                include_bytes!("../images/Pents09.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Ten) => {
+                include_bytes!("../images/Pents10.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Page) => {
+                include_bytes!("../images/Pents11.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Knight) => {
+                include_bytes!("../images/Pents12.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::Queen) => {
+                include_bytes!("../images/Pents13.jpg").as_slice()
+            }
+            Inner::MinorArcana(minor_arcana::Suit::Pentacles, minor_arcana::FaceValue::King) => {
+                include_bytes!("../images/Pents14.jpg").as_slice()
+            }
+        };
+        let card_image = image::load_from_memory(bytes)
+            .map(|img| if inverted { img.rotate180() } else { img })
+            .expect("all images are valid JPGs");
+
+        artem::convert(
+            card_image,
+            &artem::config::ConfigBuilder::new()
+                .target_size(height)
+                .build(),
+        )
     }
 }
 
